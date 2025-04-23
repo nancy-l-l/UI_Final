@@ -1,5 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="display-6">Welcome!</h1>
-<p>This is a quick demo – click <strong>Quiz</strong> to start making cocktails.</p>
+<h2>{{ lesson.title }}</h2>
+
+{% if "cocktail" in lesson.image %}
+<div class="row align-items-center">
+    <div class="col-auto">
+      <img src="{{ url_for('static', filename=lesson.image.split('static/')[1]) }}"
+           class="img-fluid cocktail-image"
+           alt="Image for {{ lesson.title }}">
+    </div>
+    <div class="col ps-3">
+      <p class="lead mb-0" style="white-space: pre-line;">{{ lesson.text }}</p>
+    </div>
+  </div>
+{% else %}
+<img src="{{ url_for('static', filename=lesson.image.split('static/')[1]) }}"
+     class="img-fluid my-3 lesson-image"
+     alt="Image for {{ lesson.title }}">
+<p class="lead" style="white-space: pre-line;">{{ lesson.text }}</p>
+{% endif %}
+
+<div class="mt-4 d-flex justify-content-between">
+    {% if page_id > 1 %}
+      <a href="{{ url_for('learn_page', page_id=page_id - 1) }}" class="btn btn-outline-secondary">← Back</a>
+    {% else %}
+      <span></span>  {# empty placeholder to keep alignment #}
+    {% endif %}
+  
+    {% if page_id < total %}
+      <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-primary">Next →</a>
+    {% else %}
+      <a href="{{ url_for('quiz') }}" class="btn btn-success">Take the Quiz</a>
+    {% endif %}
+  </div>
 {% endblock %}
+
+
