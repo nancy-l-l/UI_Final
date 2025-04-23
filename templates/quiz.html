@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="mb-4">Pick a drink to make</h1>
+
+<div class="row gy-3">
+  {% for name in drinks %}
+  <div class="col-6 col-md-3 d-grid">
+     <a href="{{ url_for('make_drink', drink=name) }}"
+        class="btn btn-outline-primary btn-lg">{{ name }}</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

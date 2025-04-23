@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Results for {{ drink }}</h2>
+<p class="lead">Your score: <strong>{{ score }}</strong> &nbsp;|&nbsp;
+    Personal best: <strong>{{ best }}</strong></p>
+
+<table class="table table-sm align-middle">
+  <thead class="table-light"><tr><th>Ingredient</th><th>Feedback</th></tr></thead>
+  <tbody>
+    {% for ing, fb in feedback.items() %}
+      <tr><td>{{ ing }}</td><td>{{ fb }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a class="btn btn-outline-primary" href="{{ url_for('quiz') }}">Try another drink</a>
+{% endblock %}

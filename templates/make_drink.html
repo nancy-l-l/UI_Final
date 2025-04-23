@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block head_extra %}
+  <script defer src="{{ url_for('static', filename='js/dragndrop.js') }}"></script>
+  <script>
+    window.CURRENT_DRINK = {{ recipe|tojson }};
+  </script>
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-2">Quiz: Make a {{ drink_name }}</h2>
+<p class="fst-italic">Drag and drop ingredients into the glass, enter ounces, then press <em>Enter</em>.  
+Your best score so far: <strong>{{ best }}</strong></p>
+
+<div class="row">
+  <!-- Glass -->
+  <div class="col-md-6 text-center">
+     <img id="glass" src="{{ url_for('static', filename='img/Glass.png') }}"
+          class="img-fluid drag-target" alt="Martini glass">
+     <div id="current-list" class="mt-3"></div>
+  </div>
+
+  <!-- Controls -->
+  <div class="col-md-6">
+     <label for="oz-input" class="form-label fw-bold">Ounces:</label>
+     <div class="input-group mb-3">
+       <input id="oz-input" type="number" min="0" step="0.25"
+              class="form-control" placeholder="enter # of oz to add">
+       <button id="add-btn" class="btn btn-primary">Enter</button>
+     </div>
+
+     <button id="trash-btn" class="btn btn-secondary mb-3">🗑️ Start over</button>
+     <button id="serve-btn" class="btn btn-success mb-3">Serve cocktail!</button>
+
+     <hr>
+     <div class="row gy-3">
+        {% for ing in recipe.keys() %}
+        <div class="col-6 text-center">
+          <img src="{{url_for('static', filename='img/' + ing|replace(' ','_') + '.png') }}"
+               class="img-fluid ingredient" draggable="true"
+               data-ingredient="{{ ing }}" alt="{{ ing }}">
+          <div class="fw-semibold small mt-1">{{ ing }}</div>
+        </div>
+        {% endfor %}
+     </div>
+  </div>
+</div>
+{% endblock %}
