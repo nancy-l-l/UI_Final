@@ -1,0 +1,50 @@
+[
+    {
+      "id": 1,
+      "title": "What is the Flavor Triangle?",
+      "image": "static/img/flavor_triangle.png",
+      "text": "Cocktail flavor comes from balancing three main components: base spirit, sour/bitter ingredients, and sweet ingredients."
+    },
+    {
+      "id": 2,
+      "title": "Base Spirit",
+      "image": "static/img/base_triangle.png",
+      "text": "Base spirits are the foundation of a cocktail. Common ones include tequila, whiskey, gin, and rum."
+    },
+    {
+      "id": 3,
+      "title": "Sour / Bitter",
+      "image": "static/img/sour_triangle.png",
+      "text": "Sour components like lime or lemon juice balance sweetness, while bitter ingredients like Campari add depth and complexity."
+    },
+    {
+      "id": 4,
+      "title": "Sweet",
+      "image": "static/img/sweet_triangle.png",
+      "text": "Sweet ingredients like syrups, liqueurs, or juices round out the drink and balance sour or bitter elements."
+    },
+    {
+        "id": 5,
+        "title": "Margarita",
+        "image": "static/img/margarita_cocktail.png",
+        "text": "Base spirit: 2 oz Tequila\nSour/Bitter: 1 oz Lime juice\nSweet: 0.75 oz Triple sec or agave syrup"
+      },
+      {
+        "id": 6,
+        "title": "Paloma",
+        "image": "static/img/paloma_cocktail.png",
+        "text": "Base spirit: 2 oz Tequila\nSour/Bitter: 2 oz Grapefruit juice, 0.5 oz Lime juice\nSweet: 0.5 oz Simple syrup"
+      },
+      {
+        "id": 7,
+        "title": "Negroni",
+        "image": "static/img/negroni_cocktail.png",
+        "text": "Base spirit: 1 oz Gin\nSour/Bitter: 1 oz Campari\nSweet: 1 oz Sweet vermouth"
+      },
+      {
+        "id": 8,
+        "title": "Whiskey Sour",
+        "image": "static/img/whiskey_sour_cocktail.png",
+        "text": "Base spirit: 2 oz Whiskey\nSour/Bitter: 0.75 oz Lemon juice\nSweet: 0.75 oz Simple syrup"
+      }
+  ]

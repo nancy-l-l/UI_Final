@@ -1,3 +1,5 @@
 #glass.drag-target { max-height: 300px; }
 #current-list       { font-size: 0.9rem; min-height: 3rem; }
 .ingredient         { max-height: 80px; cursor: grab; }
+.lesson-image { display: block; margin: 2rem auto; max-width: 30%; height: auto; }
+.cocktail-image { display: block; margin: 2rem 0; max-width: 250px; max-height: auto; }

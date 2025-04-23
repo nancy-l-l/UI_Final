@@ -1,1 +1,8 @@
 {% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+  <h1 class="display-4 mb-4">Welcome to Flavor Triangle Mixology!</h1>
+  <p class="lead">Learn how to balance cocktails using the flavor triangle of Base, Sour, Bitter, and Sweet components.</p>
+  <a href="{{ url_for('learn_page', page_id=1) }}" class="btn btn-lg btn-primary mt-3">Start Learning</a>
+</div>
+{% endblock %}

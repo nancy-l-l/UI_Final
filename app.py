@@ -32,9 +32,15 @@ def grade(drink_name, attempt):
 def home():
     return render_template("home.html")
 
-@app.route("/learn")
-def learn():
-    return render_template("learn.html")
+@app.route("/learn/<int:page_id>")
+def learn_page(page_id):
+    with open("./learning_data.json") as f:
+        lessons = json.load(f)
+    if page_id > len(lessons):
+        return redirect(url_for("quiz"))  # change as needed
+    lesson = lessons[page_id - 1]
+    return render_template("learn.html", lesson=lesson, page_id=page_id, total=len(lessons))
+
 
 @app.route("/quiz")
 def quiz():
