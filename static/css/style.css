@@ -1,5 +1,144 @@
+
 #glass.drag-target { max-height: 300px; }
 #current-list       { font-size: 0.9rem; min-height: 3rem; }
 .ingredient         { max-height: 80px; cursor: grab; }
 .lesson-image { display: block; margin: 2rem auto; max-width: 30%; height: auto; }
 .cocktail-image { display: block; margin: 2rem 0; max-width: 250px; max-height: auto; }
+
+/* ----------- Color palette ----------- */
+:root {
+    --mix-green: #2d774d;   /* navbar + primary */
+    --cream-bg : #f9f7e9;   /* page background */
+  }
+  
+  /* ----------- Basics ----------- */
+  body.cream-bg { background: var(--cream-bg); }
+  * { box-sizing: border-box; }
+  
+  .navbar.main-nav {
+    background: var(--mix-green);
+  }
+  
+  .navbar-brand,
+  .nav-link { font-family: 'Quicksand', sans-serif; }
+  
+  .nav-link:hover,
+  .navbar-brand:hover { opacity: .9; }
+  
+  .lime-icon        { height: 44px; }
+  
+  /* ----------- Hero typography ----------- */
+  .hero-title {
+    font-family: 'Kalam', cursive;
+    font-size: clamp(2.25rem, 4vw + 1rem, 4rem);
+    color: var(--mix-green);
+    line-height: 1.15;
+  }
+  
+  /* ----------- Triangle buttons ----------- */
+  .triangle-stack   { display: flex; flex-direction: column; align-items: center; }
+  
+  /* base triangle shape (uses border trick) */
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left : 160px solid transparent;
+    border-right: 160px solid transparent;
+    position: relative;
+    text-align: center;
+  }
+  
+  .triangle span {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    pointer-events: none;
+  }
+  
+  /* filled version ---------------------------------------------------- */
+  .triangle-filled {
+    border-bottom: 275px solid var(--mix-green);
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  
+  .triangle-filled:hover { transform: translateY(-6px); }
+  
+  /* outlined version -------------------------------------------------- */
+  .triangle-outline {
+    border-bottom: 275px solid transparent;                /* keeps height */
+    border-left-color : var(--mix-green);
+    border-right-color: var(--mix-green);
+    border-top: 0;
+    filter: drop-shadow(0 0 0 var(--mix-green));
+  }
+  
+  .triangle-outline::before {           /* horizontal base line */
+    content: '';
+    position: absolute;
+    bottom: -2px; left: -160px;
+    width: 320px; height: 2px;
+    background: var(--mix-green);
+  }
+  
+  .triangle-outline span { color: var(--mix-green); }
+  
+  .triangle-outline:hover { transform: translateY(6px); }
+  
+  /* make triangles responsive */
+  @media (max-width: 575px) {
+    .triangle, .triangle-outline, .triangle-filled {
+      border-left-width : 120px;
+      border-right-width: 120px;
+      border-bottom-width: 210px;
+    }
+    .triangle-outline::before { width: 240px; left: -120px; }
+  }
+  /* -------------  Trapezoid outline (bottom half)  ------------- */
+.trapezoid-outline {
+    position: relative;
+    display: block;
+    width: 400px;          /* bottom-edge of the large triangle */
+    height: 90px;
+    margin: -4px auto 0;   /* pulls snug against the small triangle */
+    cursor: pointer;
+    transition: transform .2s ease;
+  }
+  
+  .trapezoid-outline:hover { transform: translateY(6px); }
+  
+  .trapezoid-outline::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 4px solid var(--mix-green);
+    border-top: none;                          /* no top border */
+    /* forms the slanted sides so lines extend the upper triangle */
+    clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+    background: transparent;
+  }
+  
+  .trapezoid-outline span {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--mix-green);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    pointer-events: none;
+  }
+  
+  /* responsive shrink so it still looks good on phones */
+  @media (max-width: 575px) {
+    .trapezoid-outline {
+      width: 300px;
+      height: 70px;
+    }
+    .trapezoid-outline::before {
+      clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+    }
+  }

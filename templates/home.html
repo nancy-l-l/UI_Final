@@ -1,8 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="text-center">
-  <h1 class="display-4 mb-4">Welcome to Flavor Triangle Mixology!</h1>
-  <p class="lead">Learn how to balance cocktails using the flavor triangle of Base, Sour, Bitter, and Sweet components.</p>
-  <a href="{{ url_for('learn_page', page_id=1) }}" class="btn btn-lg btn-primary mt-3">Start Learning</a>
-</div>
+<section class="text-center">
+
+  <h1 class="hero-title mb-3">
+    Welcome to Flavor<br>Triangle Mixology!
+  </h1>
+
+  <p class="lead px-lg-5 mx-lg-5">
+    Learn how to craft delicious, balanced cocktails by mastering the flavor
+    triangle of <strong>Base</strong>, <strong>Sour</strong>, <strong>Bitter</strong>,
+    and <strong>Sweet</strong>. Explore examples, build your own drinks, and
+    discover the art of mixology through interactive lessons and quizzes.
+    Whether you're a beginner or looking to refine your skills, we'll help you
+    mix with confidence!
+  </p>
+
+  <!-- ▾▾  Shape stack  ▾▾ -->
+  <div class="triangle-stack mt-5">
+
+    <!-- filled triangle -->
+    <a href="{{ url_for('learn_page', page_id=1) }}"
+       class="triangle triangle-filled text-decoration-none">
+      <span>Start&nbsp;Learning</span>
+    </a>
+
+    <!-- outlined trapezoid (extends lines to bigger triangle) -->
+    <a href="{{ url_for('quiz') }}"
+       class="trapezoid-outline text-decoration-none">
+      <span>Test&nbsp;your&nbsp;knowledge</span>
+    </a>
+
+  </div>
+</section>
 {% endblock %}
