@@ -160,6 +160,105 @@
     font-size: 1.35rem;
     pointer-events: none;
   }
+
+  /* learn page */
+  .learn-page-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 80vh;
+    background-color: var(--cream-bg);
+  }
+  
+  /* LEFT SIDE */
+  .learn-left {
+    flex: 1;
+    padding: 2rem;
+    border-right: 2px solid var(--mix-green);
+    text-align: center;
+  }
+  
+  .learn-header {
+    font-family: 'Kalam', cursive;
+    font-size: 3rem;
+    color: var(--mix-green);
+  }
+  
+  .learn-subtext {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .triangle-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .triangle-bottom-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .tri-nav {
+    width: 140px;
+    height: 120px;
+    background-color: var(--mix-green);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    display: flex;
+    align-items: flex-end;      /* move text down */
+    justify-content: center;
+    padding-bottom: 12px;       /* add space from the base */
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  
+  .tri-nav:hover {
+    background-color: #3e9661;
+    transform: scale(1.05);
+  }
+  
+  .tri-nav.active {
+    border: 4px solid black;
+  }
+  
+  /* RIGHT SIDE */
+  .learn-right {
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .section-image {
+    max-height: 250px;
+    object-fit: contain;
+  }
+  
+  .section-title {
+    font-family: 'Kalam', cursive;
+    font-size: 2.5rem;
+    color: var(--mix-green);
+  }
+  
+  .dotted-divider {
+    border-top: 3px dotted var(--mix-green);
+    width: 80%;
+    margin: 1rem auto;
+  }
+  
+  .section-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  
   
   /* responsive shrink so it still looks good on phones */
   @media (max-width: 575px) {

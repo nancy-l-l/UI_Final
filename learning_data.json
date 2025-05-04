@@ -9,42 +9,42 @@
       "id": 2,
       "title": "Base Spirit",
       "image": "static/img/base_triangle.png",
-      "text": "Base spirits are the foundation of a cocktail. Common ones include tequila, whiskey, gin, and rum."
+      "text": "The base spirit is the foundation of a cocktail, providing most of the alcohol content and shaping the overall flavor of the drink. It gives the cocktail its strength, structure, and primary taste, whether that's the smokiness of whiskey, the brightness of gin, or the tropical sweetness of rum. Common base spirits include vodka, gin, rum, tequila, whiskey, and brandy. Each spirit offers a different character."
     },
     {
       "id": 3,
       "title": "Sour / Bitter",
       "image": "static/img/sour_triangle.png",
-      "text": "Sour components like lime or lemon juice balance sweetness, while bitter ingredients like Campari add depth and complexity."
+      "text": "Sour and bitter ingredients are essential for balancing the sweetness and alcohol in a cocktail. Sour elements like lime, lemon, and grapefruit juice add brightness and acidity that refresh the palate. Bitter components, such as tonic water, Angostura bitters, or bitter liqueurs like Campari, bring complexity and depth. These flavors often define a drink's edge or bite and prevent it from becoming too sweet."
     },
     {
       "id": 4,
       "title": "Sweet",
       "image": "static/img/sweet_triangle.png",
-      "text": "Sweet ingredients like syrups, liqueurs, or juices round out the drink and balance sour or bitter elements."
+      "text": "Sweet ingredients add body, smoothness, and balance to cocktails by softening strong or sour elements. Sweetness can come from simple syrup, honey, agave, fruit juices, liqueurs, or even creamy ingredients like coconut milk. These components round out the flavor of the drink and make it more approachable."
     },
     {
         "id": 5,
         "title": "Margarita",
         "image": "static/img/margarita_cocktail.png",
-        "text": "Base spirit: 2 oz Tequila\nSour/Bitter: 1 oz Lime juice\nSweet: 0.75 oz Triple sec or agave syrup"
+        "text": "Base spirit: <strong>2 oz</strong> Tequila\nSour/Bitter: <strong>1 oz</strong> Lime juice\nSweet: <strong>0.75 oz</strong> Triple sec or agave syrup"
       },
       {
         "id": 6,
         "title": "Paloma",
         "image": "static/img/paloma_cocktail.png",
-        "text": "Base spirit: 2 oz Tequila\nSour/Bitter: 2 oz Grapefruit juice, 0.5 oz Lime juice\nSweet: 0.5 oz Simple syrup"
+        "text": "Base spirit: <strong>2 oz</strong> Tequila\nSour/Bitter: <strong>2 oz</strong> Grapefruit juice, <strong>0.5 oz</strong> Lime juice\nSweet: <strong>0.5 oz</strong> Simple syrup"
       },
       {
         "id": 7,
         "title": "Negroni",
         "image": "static/img/negroni_cocktail.png",
-        "text": "Base spirit: 1 oz Gin\nSour/Bitter: 1 oz Campari\nSweet: 1 oz Sweet vermouth"
+        "text": "Base spirit: <strong>1 oz</strong> Gin\nSour/Bitter: <strong>1 oz</strong> Campari\nSweet: <strong>1 oz</strong> Sweet Vermouth"
       },
       {
         "id": 8,
         "title": "Whiskey Sour",
         "image": "static/img/whiskey_sour_cocktail.png",
-        "text": "Base spirit: 2 oz Whiskey\nSour/Bitter: 0.75 oz Lemon juice\nSweet: 0.75 oz Simple syrup"
+        "text": "Base spirit: <strong>2 oz</strong> Whiskey\nSour/Bitter: <strong>0.75 oz</strong> Lemon juice\nSweet: <strong>0.75 oz</strong> Simple syrup"
       }
   ]
