@@ -42,7 +42,7 @@
   /* ----------- Hero typography ----------- */
   .hero-title {
     font-family: 'Kalam', cursive;
-    font-size: clamp(2.25rem, 4vw + 1rem, 4rem);
+    font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem); /* smaller max size */
     color: var(--mix-green);
     line-height: 1.15;
   }
