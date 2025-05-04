@@ -4,6 +4,18 @@
 .ingredient         { max-height: 80px; cursor: grab; }
 .lesson-image { display: block; margin: 2rem auto; max-width: 30%; height: auto; }
 .cocktail-image { display: block; margin: 2rem 0; max-width: 250px; max-height: auto; }
+.home-text {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: white;
+  pointer-events: none;
+  white-space: nowrap;
+}
 
 /* ----------- Color palette ----------- */
 :root {
@@ -47,6 +59,14 @@
     position: relative;
     text-align: center;
   }
+
+  .triangle-container {
+    position: relative;
+    width: 320px;
+    height: 275px;
+    margin-bottom: 1rem;
+  }
+  
   
   .triangle span {
     position: absolute;
@@ -60,9 +80,14 @@
   
   /* filled version ---------------------------------------------------- */
   .triangle-filled {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
     border-bottom: 275px solid var(--mix-green);
     cursor: pointer;
-    transition: transform .2s ease;
+    transition: transform 0.2s ease;
   }
   
   .triangle-filled:hover { transform: translateY(-6px); }
@@ -86,7 +111,11 @@
   
   .triangle-outline span { color: var(--mix-green); }
   
-  .triangle-outline:hover { transform: translateY(6px); }
+  .triangle-container:hover .triangle-filled {
+    transform: scale(1.05) translateY(-6px);
+    filter: drop-shadow(0 0 10px rgba(45, 119, 77, 0.4));
+    border-bottom-color: #3e9661;
+  }
   
   /* make triangles responsive */
   @media (max-width: 575px) {

@@ -19,10 +19,10 @@
   <div class="triangle-stack mt-5">
 
     <!-- filled triangle -->
-    <a href="{{ url_for('learn_page', page_id=1) }}"
-       class="triangle triangle-filled text-decoration-none">
-      <span>Start&nbsp;Learning</span>
-    </a>
+    <div class="triangle-container">
+      <a href="{{ url_for('learn_page', page_id=1) }}" class="triangle triangle-filled text-decoration-none"></a>
+      <div class="home-text">Start Learning</div>
+    </div>
 
     <!-- outlined trapezoid (extends lines to bigger triangle) -->
     <a href="{{ url_for('quiz') }}"
