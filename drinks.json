@@ -10,7 +10,7 @@
     }
   },
   "Paloma": {
-    "best": 1,
+    "best": 0,
     "cur_score": 0,
     "recipe": {
       "Tequila": 2,

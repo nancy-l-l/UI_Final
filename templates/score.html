@@ -3,7 +3,7 @@
 <div class="row">
  <!-- LEFT rail -->
  <div class="col-md-4 ps-4">
-   <h1 class="section-title">Score: {{cur_score}}</h1>
+   <h1 class="section-title">Score: {{score}}</h1>
    <hr class="border-4 border-dark w-75">
 
 
@@ -28,22 +28,18 @@
            <th class="text-center">Amount</th></tr>
      </thead>
      <tbody class="fs-5">
-      {% for ing,res in feedback.items() %}
-         <tr class="text-center align-middle border-top border-white border-opacity-50">
-           <td>{{ ing }}</td>
-           <td>
-              {% if res.ok %}
-                <span class="text-success">{{ res.pouredAmt }} oz</span>
-              {% else %}
-                <span class="text-danger">{{ res.pouredAmt }} oz</span>
-              {% endif %}
-           </td>
-         </tr>
-       {% endfor %}
-
+      {% for ing, res in feedback.items() %}
+        <tr class="text-center align-middle border-top border-white border-opacity-50">
+          <td>{{ ing }}</td>
+          <td>
+            {{res}}
+          </td>
+        </tr>
+      {% endfor %}
      </tbody>
    </table>
  </div>
 </div>
 
 {% endblock %}
+<!-- {{ "{:.2f}".format(res.pouredAmt) }} or {{ "{:.2f}".format(res.entered) }} -->

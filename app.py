@@ -16,14 +16,20 @@ def grade(drink_name, attempt):
     feedback  = {}
     for ing, true_oz in recipe.items():
         given_oz = attempt.get(ing, 0)
-        if abs(given_oz - true_oz) < 0.01:     # exact match
-            feedback[ing] = f"✓  {given_oz} oz (perfect)"
-            correct += 2                       # +2 points: right ing & amount
-        elif given_oz > 0:
-            feedback[ing] = f"½  {given_oz} oz (wrong amount – need {true_oz})"
-            correct += 1                       # +1 point: ingredient present
+        if ing != "Simple Syrup":
+            feedback[ing] = "✓ correct"
         else:
-            feedback[ing] = f"✗  (missing – need {true_oz} oz)"
+            feedback[ing] = "✗ incorrect"
+            """
+            if abs(given_oz - true_oz) < 0.01:     # exact match
+                feedback[ing] = f"✓  {given_oz} oz (perfect)"
+                correct += 2                       # +2 points: right ing & amount
+            elif given_oz > 0:
+                feedback[ing] = f"½  {given_oz} oz (wrong amount – need {true_oz})"
+                correct += 1                       # +1 point: ingredient present
+            else:
+                feedback[ing] = f"✗  (missing – need {true_oz} oz)"
+            """
     return correct, feedback
 
 
@@ -58,20 +64,24 @@ def make_drink(drink):
 
 @app.route("/serve", methods=["POST"])
 def serve():
-    payload = request.get_json(force=True)
-    attempt = {k: float(v) for k, v in payload.get("entered", {}).items()}
-    drink   = session.get("drink")
-    if drink is None:
-        return jsonify({"error": "no drink in session"}), 400
+   payload = request.get_json(force=True)
+   attempt = {k: float(v) for k, v in payload.get("entered", {}).items()}
+   drink   = session.get("drink")
+   if drink is None:
+       return jsonify({"error": "no drink in session"}), 400
 
-    score, feedback = grade(drink, attempt)
 
-    # update best score in memory – in production write to DB
-    DRINKS[drink]["best"] = max(score, DRINKS[drink].get("best", 0))
+   score, feedback = grade(drink, attempt)
 
-    session["last_score"] = score
-    session["feedback"]   = feedback
-    return jsonify({"redirect": url_for("score")})
+
+   # update best score in memory – in production write to DB
+   DRINKS[drink]["best"] = max(score, DRINKS[drink].get("best", 0))
+
+
+   session["last_score"] = score
+   session["feedback"]   = feedback
+   return jsonify({"redirect": url_for("score")})
+
 
 @app.route("/score")
 def score():
@@ -86,6 +96,7 @@ def score():
                            best=best,
                            feedback=feedback,
                            drink=drink)
+
 
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":

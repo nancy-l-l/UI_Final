@@ -12,19 +12,20 @@
 
     /* ----- 1. keep track of what the user adds ----- */
     const poured = {};        //  { "Tequila" : 1.5 , … }
+    const results = {};       //   will hold { Tequila: { pouredAmt, ok, target }, … }
 
     /* small helper so we can render underneath the glass */
     function refreshList () {
       const list = Object.entries(poured)
         .map(([k,v]) => `<div>${k}: ${v} oz</div>`).join("");
       document.querySelector('#current-list').innerHTML = list;
-    }
+    } 
 
     /* remember which ingredient is “active” (drag‑n‑drop) */
     let activeIng = null;
     document
       .querySelectorAll('.ingredient')
-      .forEach(img => img.addEventListener('dragstart', () => {
+      .forEach(img => img.addEventListener('click', () => {
         activeIng = img.dataset.ingredient;
       }));
 
@@ -37,6 +38,12 @@
       const oz = parseFloat(ozInput.value);
       if (isNaN(oz) || oz <= 0) return;                 // guard
       poured[activeIng] = (poured[activeIng] || 0) + oz;
+      const targetAmt = window.CURRENT_DRINK[activeIng];
+      results[activeIng] = {
+        pouredAmt: poured[activeIng],
+        ok: false,            // we’ll re-compute this on “Serve”
+        target: targetAmt
+      };
       ozInput.value = '';                               // <<< clears field
       refreshList();
     }
@@ -56,7 +63,8 @@
         let score = 0;
         Object.entries(correct).forEach(([ing, target]) => {
           const pouredAmt = poured[ing] || 0;
-          const ok = Math.abs(pouredAmt - target) < 0.26;   // ±¼ oz tol.
+          const ok = pouredAmt === target;
+              // ±¼ oz tol.
           if (ok) score += 1;
           results[ing] ={pouredAmt, ok, target };
         });
@@ -66,7 +74,8 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             drink: "{{ drink_name }}",
-            score, total: Object.keys(correct).length,
+            score, 
+            total: Object.keys(correct).length,
             results
           })
         })
