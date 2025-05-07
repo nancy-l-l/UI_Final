@@ -1,17 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Results for {{ drink }}</h2>
-<p class="lead">Your score: <strong>{{ score }}</strong> &nbsp;|&nbsp;
-    Personal best: <strong>{{ best }}</strong></p>
+<div class="row">
+ <!-- LEFT rail -->
+ <div class="col-md-4 ps-4">
+   <h1 class="section-title">Score: {{cur_score}}</h1>
+   <hr class="border-4 border-dark w-75">
 
-<table class="table table-sm align-middle">
-  <thead class="table-light"><tr><th>Ingredient</th><th>Feedback</th></tr></thead>
-  <tbody>
-    {% for ing, fb in feedback.items() %}
-      <tr><td>{{ ing }}</td><td>{{ fb }}</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
 
-<a class="btn btn-outline-primary" href="{{ url_for('quiz') }}">Try another drink</a>
+   <p class="fs-3"><a href="{{ url_for('make_drink', drink=drink) }}"
+     class="section-subtitle">Remake</a></p>
+
+
+   <p class="fs-3"><a href="{{ url_for('learn_page', page_id=1) }}"
+     class="section-subtitle">Learn Again</a></p>
+
+
+   <p class="fs-3"><a href="{{ url_for('quiz') }}"
+     class="section-subtitle">Make a different drink</a></p>
+ </div>
+
+ <!-- RIGHT card -->
+ <div class="col-md-8">
+   <table class="table text-white rounded-4 overflow-hidden"
+          style="background:#2d774d">
+     <thead class="fs-4">
+       <tr><th class="w-50 text-center">Ingredient</th>
+           <th class="text-center">Amount</th></tr>
+     </thead>
+     <tbody class="fs-5">
+      {% for ing,res in feedback.items() %}
+         <tr class="text-center align-middle border-top border-white border-opacity-50">
+           <td>{{ ing }}</td>
+           <td>
+              {% if res.ok %}
+                <span class="text-success">{{ res.pouredAmt }} oz</span>
+              {% else %}
+                <span class="text-danger">{{ res.pouredAmt }} oz</span>
+              {% endif %}
+           </td>
+         </tr>
+       {% endfor %}
+
+     </tbody>
+   </table>
+ </div>
+</div>
+
 {% endblock %}

@@ -2,7 +2,30 @@
 $(function () {
     let selectedIngredient = null;
     let working = {};           // { "Tequila": 1.5, ... }
-  
+    
+    const ingredients = document.querySelectorAll('.ingredient');
+    const addBtn = document.querySelector('#add-btn');
+
+    // Add click event to highlight ingredients
+    ingredients.forEach(ingredient => {
+        ingredient.addEventListener('click', () => {
+        // Remove highlight from previously selected ingredient
+        if (selectedIngredient) {
+            selectedIngredient.classList.remove('highlight');
+        }
+        // Highlight the clicked ingredient
+        ingredient.classList.add('highlight');
+        selectedIngredient = ingredient;
+        });
+    });
+
+  // Clear highlight when "Enter" button is clicked
+  addBtn.addEventListener('click', () => {
+    if (selectedIngredient) {
+      selectedIngredient.classList.remove('highlight');
+      selectedIngredient = null;
+    }
+  });
     // ----- drag & drop ------------------------------------------------------
     $(".ingredient").on("dragstart", function (e) {
         selectedIngredient = $(this).data("ingredient");

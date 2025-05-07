@@ -12,7 +12,7 @@
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
   font-size: 1.4rem;
-  color: white;
+  color: rgb(244, 232, 178);
   pointer-events: none;
   white-space: nowrap;
 }
@@ -20,7 +20,7 @@
 /* ----------- Color palette ----------- */
 :root {
     --mix-green: #2d774d;   /* navbar + primary */
-    --cream-bg : #f9f7e9;   /* page background */
+    --cream-bg : #efe4ce;   /* page background */
   }
   
   /* ----------- Basics ----------- */
@@ -246,6 +246,13 @@
     font-size: 2.5rem;
     color: var(--mix-green);
   }
+
+  .section-subtitle {
+    font-family: 'Kalam', cursive;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: var(--mix-green);
+  }
   
   .dotted-divider {
     border-top: 3px dotted var(--mix-green);
@@ -258,7 +265,10 @@
     line-height: 1.6;
   }
   
-  
+  .ingredient.highlight {
+    border: 3px solid #4a704a; /* Green border to match the theme */
+    border-radius: 5px;
+  }
   
   /* responsive shrink so it still looks good on phones */
   @media (max-width: 575px) {

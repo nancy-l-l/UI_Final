@@ -1,15 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="mb-4">Pick a drink to make</h1>
+  <style>
+    /* make each cell a column flexbox, full height of its row */
+    .drink-cell {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    /* fix all images to the same height and center them */
+    .drink-img {
+      max-height: 300px;       /* pick your uniform image height */
+      object-fit: contain;     /* preserve aspect ratio */
+      margin-bottom: 0.5rem;
+    }
+    /* push the button to the bottom and fix its height */
+    .drink-btn {
+      margin-top: auto;
+      height: 3.5rem;          /* pick your uniform button height */
+    }
+  </style>
 
-<div class="row gy-3">
-  {% for name in drinks %}
-  <div class="col-6 col-md-3 d-grid">
-     <a href="{{ url_for('make_drink', drink=name) }}"
-        class="btn btn-outline-primary btn-lg">{{ name }}</a>
+  <h2 class="section-title"> Pick a drink to make </h2>
+  <div class="row gy-3">
+    {% for name in drinks %}
+      <div class="col-6 col-md-3 d-flex">
+        <div class="drink-cell text-center w-100">
+          <!-- image -->
+          <img
+            src="{{ url_for('static', filename='img/' ~ name|lower|replace(' ', '_') ~ '_cocktail.png') }}"
+            alt="{{ name }} cocktail"
+            class="drink-img mx-auto"
+          >
+          <!-- button, pushed to bottom-->
+          <a
+            href="{{ url_for('make_drink', drink=name) }}"
+            class="btn btn-success mb-3"  
+          >
+            {{ name }}
+          </a>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
 {% endblock %}
-
-<!--  Make pouring an ingredient like a progress bar-->

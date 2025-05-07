@@ -59,7 +59,7 @@ def make_drink(drink):
 @app.route("/serve", methods=["POST"])
 def serve():
     payload = request.get_json(force=True)
-    attempt = {k: float(v) for k, v in payload.get("ingredients", {}).items()}
+    attempt = {k: float(v) for k, v in payload.get("entered", {}).items()}
     drink   = session.get("drink")
     if drink is None:
         return jsonify({"error": "no drink in session"}), 400

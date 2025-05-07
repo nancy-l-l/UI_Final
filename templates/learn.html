@@ -23,7 +23,7 @@
     {% endif %}
 
     {% if page_id < total %}
-      <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-primary">Next →</a>
+      <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-success mb-3"  >Next →</a>
     {% else %}
       <a href="{{ url_for('quiz') }}" class="btn btn-success">Take the Quiz</a>
     {% endif %}
@@ -68,11 +68,11 @@
       <a href="{{ url_for('learn_page', page_id=page_id - 1) }}" class="btn btn-outline-secondary">← Back</a>
       {% if page_id < total %}
       {% if page_id == 4 %}
-        <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-primary">
+        <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-success mb-3">
           Next: See Cocktail Examples →
         </a>
       {% else %}
-        <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-primary">Next →</a>
+        <a href="{{ url_for('learn_page', page_id=page_id + 1) }}" class="btn btn-success mb-3">Next →</a>
       {% endif %}
 
       {% else %}
@@ -85,3 +85,4 @@
 
 {% endif %}
 {% endblock %}
+

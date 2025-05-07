@@ -1,37 +1,40 @@
 {
-    "Margarita": {
-      "best": 0,
-      "recipe": {
-        "Tequila": 2,
-        "Lime Juice": 1,
-        "Triple Sec": 1,
-        "Simple Syrup": 0.5
-      }
-    },
-    "Paloma": {
-      "best": 0,
-      "recipe": {
-        "Tequila": 2,
-        "Grapefruit Soda": 4,
-        "Lime Juice": 0.5,
-        "Simple Syrup": 0.25
-      }
-    },
-    "Negroni": {
-      "best": 0,
-      "recipe": {
-        "Gin": 1,
-        "Campari": 1,
-        "Sweet Vermouth": 1
-      }
-    },
-    "Whiskey Sour": {
-      "best": 0,
-      "recipe": {
-        "Whiskey": 2,
-        "Lemon Juice": 0.75,
-        "Simple Syrup": 0.75
-      }
+  "Margarita": {
+    "best": 0,
+    "cur_score": 0,
+    "recipe": {
+      "Tequila": 2,
+      "Lime Juice": 1,
+      "Triple Sec": 1,
+      "Simple Syrup": 0.5
+    }
+  },
+  "Paloma": {
+    "best": 1,
+    "cur_score": 0,
+    "recipe": {
+      "Tequila": 2,
+      "Grapefruit Soda": 4,
+      "Lime Juice": 0.5,
+      "Simple Syrup": 0.5
+    }
+  },
+  "Negroni": {
+    "best": 0,
+    "cur_score": 0,
+    "recipe": {
+      "Gin": 1,
+      "Campari": 1,
+      "Sweet Vermouth": 1
+    }
+  },
+  "Whiskey Sour": {
+    "best": 0,
+    "cur_score": 0,
+    "recipe": {
+      "Whiskey": 2,
+      "Lemon Juice": 0.75,
+      "Simple Syrup": 0.75
     }
   }
-  
+}

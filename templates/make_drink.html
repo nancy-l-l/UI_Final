@@ -1,47 +1,117 @@
 {% extends "base.html" %}
 {% block head_extra %}
-  <script defer src="{{ url_for('static', filename='js/dragndrop.js') }}"></script>
-  <script>
-    window.CURRENT_DRINK = {{ recipe|tojson }};
-  </script>
+<script defer src="{{ url_for('static', filename='js/dragndrop.js') }}"></script>
+
+<!--‑‑‑‑‑‑‑‑  NEW LOGIC  ––––––-->
+<script defer>
+  window.CURRENT_DRINK = {{ recipe|tojson }};
+</script>
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    /* ----- 1. keep track of what the user adds ----- */
+    const poured = {};        //  { "Tequila" : 1.5 , … }
+
+    /* small helper so we can render underneath the glass */
+    function refreshList () {
+      const list = Object.entries(poured)
+        .map(([k,v]) => `<div>${k}: ${v} oz</div>`).join("");
+      document.querySelector('#current-list').innerHTML = list;
+    }
+
+    /* remember which ingredient is “active” (drag‑n‑drop) */
+    let activeIng = null;
+    document
+      .querySelectorAll('.ingredient')
+      .forEach(img => img.addEventListener('dragstart', () => {
+        activeIng = img.dataset.ingredient;
+      }));
+
+    /* ----- 2. clear the input when the guest hits Enter ----- */
+    const ozInput = document.querySelector('#oz-input');
+    const addBtn  = document.querySelector('#add-btn');
+
+    function handleAdd () {
+      if (!activeIng) return;                           // nothing selected
+      const oz = parseFloat(ozInput.value);
+      if (isNaN(oz) || oz <= 0) return;                 // guard
+      poured[activeIng] = (poured[activeIng] || 0) + oz;
+      ozInput.value = '';                               // <<< clears field
+      refreshList();
+    }
+
+    /* “Enter” key OR green button both call handleAdd() */
+   
+    ozInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); handleAdd(); }
+    });
+    addBtn.addEventListener('click', handleAdd);
+
+    /* ----- 3. when guest clicks “Serve”  →  POST score ----- */
+    document.querySelector('#serve-btn')
+      .addEventListener('click', () => {
+        const correct = window.CURRENT_DRINK;           // from Jinja
+        const results = {};
+        let score = 0;
+        Object.entries(correct).forEach(([ing, target]) => {
+          const pouredAmt = poured[ing] || 0;
+          const ok = Math.abs(pouredAmt - target) < 0.26;   // ±¼ oz tol.
+          if (ok) score += 1;
+          results[ing] ={pouredAmt, ok, target };
+        });
+
+        fetch("{{ url_for('score') }}", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            drink: "{{ drink_name }}",
+            score, total: Object.keys(correct).length,
+            results
+          })
+        })
+        .then(r => r.json())
+        .then(data => window.location = data.redirect);   // jump to /score
+      });
+  });
+</script>
 {% endblock %}
 
 {% block content %}
-<h2 class="mb-2">Quiz: Make a {{ drink_name }}</h2>
-<p class="fst-italic">Drag and drop ingredients into the glass, enter ounces, then press <em>Enter</em>.  
+<h2 class="section-title">Quiz: Make a {{ drink_name }}</h2>
+<p class="fst-italic">Pick the ingredient, enter ounces, then press <em>Enter</em>. <br>
 Your best score so far: <strong>{{ best }}</strong></p>
 
 <div class="row">
-  <!-- Glass -->
-  <div class="col-md-6 text-center">
-     <img id="glass" src="{{ url_for('static', filename='img/Glass.png') }}"
-          class="img-fluid drag-target" alt="Martini glass">
-     <div id="current-list" class="mt-3"></div>
+<!-- Glass -->
+<div class="col-md-6 text-center">
+   <img id="glass" src="{{ url_for('static', filename='img/Glass.png') }}"
+        class="img-fluid drag-target" alt="Martini glass">
+   <div id="current-list" class="mt-3"></div>
+</div>
+
+<!-- Controls -->
+<div class="col-md-6">
+  <div class="input-group mb-3">
+    <input id="oz-input" type="number" min="0" step="0.25"
+           class="form-control" placeholder="enter # of oz to add">
+    <button id="add-btn" class="btn btn-success">Enter</button>
   </div>
 
-  <!-- Controls -->
-  <div class="col-md-6">
-     <label for="oz-input" class="form-label fw-bold">Ounces:</label>
-     <div class="input-group mb-3">
-       <input id="oz-input" type="number" min="0" step="0.25"
-              class="form-control" placeholder="enter # of oz to add">
-       <button id="add-btn" class="btn btn-primary">Enter</button>
-     </div>
+   <button id="trash-btn" class="btn btn-secondary mb-3">Start over</button>
+   <button id="serve-btn" class="btn btn-success mb-3">Serve cocktail!</button>
 
-     <button id="trash-btn" class="btn btn-secondary mb-3">🗑️ Start over</button>
-     <button id="serve-btn" class="btn btn-success mb-3">Serve cocktail!</button>
-
-     <hr>
-     <div class="row gy-3">
-        {% for ing in recipe.keys() %}
-        <div class="col-6 text-center">
-          <img src="{{url_for('static', filename='img/' + ing|replace(' ','_') + '.png') }}"
-               class="img-fluid ingredient" draggable="true"
-               data-ingredient="{{ ing }}" alt="{{ ing }}">
-          <div class="fw-semibold small mt-1">{{ ing }}</div>
-        </div>
-        {% endfor %}
-     </div>
-  </div>
+   <hr>
+   <div class="row gy-3">
+      {% for ing in recipe.keys() %}
+      <div class="col-6 text-center">
+        <img src="{{url_for('static', filename='img/' + ing|replace(' ','_') + '.png') }}"
+             class="img-fluid ingredient" draggable="true"
+             data-ingredient="{{ ing }}" alt="{{ ing }}">
+        <div class="fw-semibold small mt-1">{{ ing }}</div>
+      </div>
+      {% endfor %}
+   </div>
+</div>
 </div>
 {% endblock %}
