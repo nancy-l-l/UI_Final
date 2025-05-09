@@ -3,9 +3,10 @@
 <div class="row">
  <!-- LEFT rail -->
  <div class="col-md-4 ps-4">
-   <h1 class="section-title">Score: {{score}}</h1>
+   <h1 class="section-title">Score: {{cur_score}}</h1>
+   <h1 class="section-subtitle">Best Score: {{best_score}}</h1>
    <hr class="border-4 border-dark w-75">
-
+ <!--<h1 class="section-title">Score: {{score}}</h1>-->
 
    <p class="fs-3"><a href="{{ url_for('make_drink', drink=drink) }}"
      class="section-subtitle">Remake</a></p>
@@ -28,7 +29,7 @@
            <th class="text-center">Amount</th></tr>
      </thead>
      <tbody class="fs-5">
-      {% for ing, res in feedback.items() %}
+      {% for ing, res in attempt.items() %}
         <tr class="text-center align-middle border-top border-white border-opacity-50">
           <td>{{ ing }}</td>
           <td>

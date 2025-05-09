@@ -9,6 +9,7 @@ with open("drinks.json", "r") as f:
     DRINKS = json.load(f)
 
 # helper --------------------------------------------------------------------
+
 def grade(drink_name, attempt):
     """return (score, feedback_dict) comparing attempt vs true recipe"""
     recipe = DRINKS[drink_name]["recipe"]
@@ -16,23 +17,16 @@ def grade(drink_name, attempt):
     feedback  = {}
     for ing, true_oz in recipe.items():
         given_oz = attempt.get(ing, 0)
-        if ing != "Simple Syrup":
-            feedback[ing] = "✓ correct"
+        if given_oz == true_oz:     # exact match
+            feedback[ing] = f"{given_oz} oz is Correct!"
+            correct += 2                       # +2 points: right ing & amount
+        elif given_oz > 0:
+            feedback[ing] = f"{given_oz} oz is Incorrect (need {true_oz} oz)"
+            correct += 1                       # +1 point: ingredient present
         else:
-            feedback[ing] = "✗ incorrect"
-            """
-            if abs(given_oz - true_oz) < 0.01:     # exact match
-                feedback[ing] = f"✓  {given_oz} oz (perfect)"
-                correct += 2                       # +2 points: right ing & amount
-            elif given_oz > 0:
-                feedback[ing] = f"½  {given_oz} oz (wrong amount – need {true_oz})"
-                correct += 1                       # +1 point: ingredient present
-            else:
-                feedback[ing] = f"✗  (missing – need {true_oz} oz)"
-            """
+            feedback[ing] = f"missing – need {true_oz} oz)"
+        
     return correct, feedback
-
-
 # ----- routes --------------------------------------------------------------
 @app.route("/")
 def home():
@@ -64,39 +58,32 @@ def make_drink(drink):
 
 @app.route("/serve", methods=["POST"])
 def serve():
-   payload = request.get_json(force=True)
-   attempt = {k: float(v) for k, v in payload.get("entered", {}).items()}
-   drink   = session.get("drink")
-   if drink is None:
-       return jsonify({"error": "no drink in session"}), 400
-
-
-   score, feedback = grade(drink, attempt)
-
-
-   # update best score in memory – in production write to DB
-   DRINKS[drink]["best"] = max(score, DRINKS[drink].get("best", 0))
-
-
-   session["last_score"] = score
-   session["feedback"]   = feedback
-   return jsonify({"redirect": url_for("score")})
-
+    data = request.get_json(force=True)      # parse the JSON body
+    ingredients = data.get('ingredients', {})  # {name: amount, …}
+            # stash in cookie-backed session
+    drink = session.get("drink")
+    if drink is None:
+        return jsonify({"error": "no drink in session"}), 400
+    if str(ingredients) != "{}":
+        score, feedback = grade(drink, ingredients)
+        session['attempt'] = feedback
+        session['cur_score'] = score
+    return jsonify({'redirect': url_for('score')})
+    
 
 @app.route("/score")
 def score():
-    score    = session.pop("last_score", None)
-    feedback = session.pop("feedback", {})
-    drink    = session.pop("drink", None)
-    if score is None:
-        return redirect(url_for("quiz"))
-    best     = DRINKS[drink]["best"]
-    return render_template("score.html",
-                           score=score,
-                           best=best,
-                           feedback=feedback,
-                           drink=drink)
-
+    drink = session.get("drink")
+    best_score = DRINKS[drink]["best"]
+    attempt = session.pop('attempt', 0)   # pull once, then forget
+    cur_score = session.pop('cur_score', 0)
+    if best_score < cur_score:
+        DRINKS[drink]["best"] = cur_score
+        best_score = cur_score
+    if attempt is None:                      # user refreshed directly
+        return redirect(url_for('quiz'))    # or some landing page
+    # pass “attempt” into the template for display / grading
+    return render_template('score.html', attempt=attempt, drink=drink, best_score=best_score, cur_score=cur_score)
 
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":

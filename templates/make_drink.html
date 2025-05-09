@@ -14,6 +14,10 @@
     const poured = {};        //  { "Tequila" : 1.5 , … }
     const results = {};       //   will hold { Tequila: { pouredAmt, ok, target }, … }
 
+    const ozInput  = document.getElementById('oz-input');
+    const addBtn   = document.getElementById('add-btn');
+    const serveBtn = document.getElementById('serve-btn');
+
     /* small helper so we can render underneath the glass */
     function refreshList () {
       const list = Object.entries(poured)
@@ -28,11 +32,27 @@
       .forEach(img => img.addEventListener('click', () => {
         activeIng = img.dataset.ingredient;
       }));
+    
+      addBtn.addEventListener('click', () => {
+        const amt = parseFloat(ozInput.value);
+
+        //  Guardrails
+        if (!activeIng) { alert('Pick an ingredient first!'); return; }
+        if (Number.isNaN(amt)) { alert('Enter an amount');    return; }
+
+        //  Save into our dictionary
+        poured[activeIng] = amt;
+
+        ozInput.value       = '';
+        ozInput.placeholder = 'enter # of oz to add';
+        refreshList();
+      });
 
     /* ----- 2. clear the input when the guest hits Enter ----- */
-    const ozInput = document.querySelector('#oz-input');
-    const addBtn  = document.querySelector('#add-btn');
-
+    //const ozInput = document.querySelector('#oz-input');
+    //const addBtn  = document.querySelector('#add-btn');
+    
+    /*
     function handleAdd () {
       if (!activeIng) return;                           // nothing selected
       const oz = parseFloat(ozInput.value);
@@ -41,46 +61,60 @@
       const targetAmt = window.CURRENT_DRINK[activeIng];
       results[activeIng] = {
         pouredAmt: poured[activeIng],
-        ok: false,            // we’ll re-compute this on “Serve”
-        target: targetAmt
+        //ok: false,            // we’ll re-compute this on “Serve”
+        //target: targetAmt
       };
       ozInput.value = '';                               // <<< clears field
       refreshList();
     }
+    */
 
     /* “Enter” key OR green button both call handleAdd() */
-   
+   /*
     ozInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') { e.preventDefault(); handleAdd(); }
     });
     addBtn.addEventListener('click', handleAdd);
-
+    */
     /* ----- 3. when guest clicks “Serve”  →  POST score ----- */
+    /*
     document.querySelector('#serve-btn')
       .addEventListener('click', () => {
         const correct = window.CURRENT_DRINK;           // from Jinja
         const results = {};
-        let score = 0;
-        Object.entries(correct).forEach(([ing, target]) => {
+        //let score = 0;
+        //Object.entries(correct).forEach(([ing, target]) => {
           const pouredAmt = poured[ing] || 0;
           const ok = pouredAmt === target;
               // ±¼ oz tol.
-          if (ok) score += 1;
-          results[ing] ={pouredAmt, ok, target };
+         // if (ok) score += 1;
+          results[ing] = pouredAmt;
         });
 
-        fetch("{{ url_for('score') }}", {
+        fetch("serve", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            drink: "{{ drink_name }}",
-            score, 
-            total: Object.keys(correct).length,
+            //drink: "{{ drink_name }}",
+            //score, 
+            //total: Object.keys(correct).length,
             results
           })
         })
         .then(r => r.json())
         .then(data => window.location = data.redirect);   // jump to /score
+      });
+      */
+      /* ----- “Serve cocktail!” button -----------------------------*/
+      serveBtn.addEventListener('click', (e) => {
+        fetch('/serve', {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ ingredients: poured })
+        })
+        .then(r => r.json())        // server always returns JSON
+        .then(data => window.location.href = data.redirect)
+        .catch(console.error);
       });
   });
 </script>
@@ -109,7 +143,7 @@ Your best score so far: <strong>{{ best }}</strong></p>
 
    <button id="trash-btn" class="btn btn-secondary mb-3">Start over</button>
    <button id="serve-btn" class="btn btn-success mb-3">Serve cocktail!</button>
-
+   
    <hr>
    <div class="row gy-3">
       {% for ing in recipe.keys() %}
