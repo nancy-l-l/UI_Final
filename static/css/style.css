@@ -280,3 +280,34 @@
       clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
     }
   }
+  .ingredient {
+    max-height: 80px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+    border-radius: 8px;
+  }
+  
+  .ingredient:hover {
+    transform: scale(1.05);
+  }
+  
+  .ingredient.active-ing {
+    border: 3px solid #28a745;      /* green border */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.6); /* soft glow */
+    transform: scale(1.05);         /* slight zoom effect */
+  }
+  
+  #glass {
+    max-height: 300px;
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+    border-radius: 8px;
+  }
+  
+  #glass.drag-highlight {
+    border: 3px dashed #28a745;
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
+  }
+  

@@ -21,10 +21,10 @@ def grade(drink_name, attempt):
             feedback[ing] = f"{given_oz} oz is Correct!"
             correct += 2                       # +2 points: right ing & amount
         elif given_oz > 0:
-            feedback[ing] = f"{given_oz} oz is Incorrect (need {true_oz} oz)"
+            feedback[ing] = f"{given_oz} oz is Incorrect"
             correct += 1                       # +1 point: ingredient present
         else:
-            feedback[ing] = f"missing – need {true_oz} oz)"
+            feedback[ing] = f"missing"
         
     return correct, feedback
 # ----- routes --------------------------------------------------------------
@@ -64,6 +64,8 @@ def serve():
     drink = session.get("drink")
     if drink is None:
         return jsonify({"error": "no drink in session"}), 400
+    print("📦 Received from browser:", ingredients)
+    print("📖 Expected recipe keys:", DRINKS[drink]["recipe"].keys())
     if str(ingredients) != "{}":
         score, feedback = grade(drink, ingredients)
         session['attempt'] = feedback
@@ -74,16 +76,26 @@ def serve():
 @app.route("/score")
 def score():
     drink = session.get("drink")
+    if not drink or drink not in DRINKS:
+        return redirect(url_for('quiz'))
+
     best_score = DRINKS[drink]["best"]
-    attempt = session.pop('attempt', 0)   # pull once, then forget
+    attempt = session.pop('attempt', {})
     cur_score = session.pop('cur_score', 0)
+
+    # Make sure attempt is a dictionary
+    if not isinstance(attempt, dict) or not attempt:
+        return redirect(url_for('quiz'))
+
     if best_score < cur_score:
         DRINKS[drink]["best"] = cur_score
         best_score = cur_score
-    if attempt is None:                      # user refreshed directly
-        return redirect(url_for('quiz'))    # or some landing page
-    # pass “attempt” into the template for display / grading
-    return render_template('score.html', attempt=attempt, drink=drink, best_score=best_score, cur_score=cur_score)
+
+    return render_template('score.html',
+                           attempt=attempt,
+                           drink=drink,
+                           best_score=best_score,
+                           cur_score=cur_score)
 
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
